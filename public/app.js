@@ -7,10 +7,12 @@ let stored = JSON.parse(localStorage.getItem('notes'));
 // this prevents the localStorage from being overwritten and reinitialized as an empty array if the page reloads, which would thereby virtually clear the data in localStorage.
 if (stored !== null) {
     notes = [...stored];
-}
+};
 
+// Select HTML items
 const form = document.querySelector('form');
-const autoResizeElements = document.querySelectorAll('.auto-resize')
+const autoResizeElements = document.querySelectorAll('.auto-resize');
+const noteBoard = document.querySelector('#note-board');
 
 // -----------------------------
 // FUNCTIONALITY
@@ -25,8 +27,27 @@ const createNoteData = () => {
     }
 
     return noteData;
-}
+};
 
+// Logic for rendering notes that are saved
+const renderNote = (note) => {
+  const formWrapper = document.createElement("div");
+  formWrapper.classList.add("form-wrapper");
+
+  const newForm = document.createElement("form");
+
+  const title = document.createElement("input");
+  newForm.appendChild(title);
+  title.value = note.title;
+
+  const textArea = document.createElement("textarea");
+  newForm.appendChild(textArea);
+  textArea.value = note.content;
+
+  formWrapper.appendChild(newForm);
+  noteBoard.appendChild(formWrapper);
+};
+    
 // Here we send the noteData object to the notes array and to local storage
 // Therefore, saveNote() does not need to receive the form data but rather call createNoteData()
 // Thus, we can use it to create eventListeners that don't need the form data passed to it, since the data gets created AFTER the event trigger. 
@@ -46,12 +67,20 @@ const saveNote = (event) => {
        
     localStorage.setItem( 'notes', JSON.stringify(notes) );
        
+    renderNote(note)
     // clear the form for new entries
     form.reset();
     console.log('form submitted');
     console.log({localStorage});
 
-}
+};
+
+
+if (notes) {
+    for (let note of notes) {
+        renderNote(note)
+    }
+};
 
 // -----------------------------
 // EVENT LISTENERS
@@ -60,14 +89,14 @@ const saveNote = (event) => {
 
 // run saveNote() whenever form is submitted
 // form submissions can happen by clicking the Save button or through keyboard shortcut
-form.addEventListener('submit', saveNote)
+form.addEventListener('submit', saveNote);
 
 // Submit form with keyboard shortcut: metaKey + enter
 document.addEventListener('keydown', (event) => {
     if ( event.ctrlKey && event.key === 'Enter' ) {
         document.querySelector('#save-note-btn').click()        
     } 
-})
+});
 
 // -----------------------------
 // UX details
@@ -77,10 +106,10 @@ document.addEventListener('keydown', (event) => {
 // This allows the textarea to automatically resize instead of remaining the same height with a scroll bar
 autoResizeElements.forEach(element => {
     element.addEventListener('input', autoResize)
-})
+});
 
 function autoResize() {
     this.style.height = this.scrollHeight + "px";
-}
+};
 // -----------------------------
 

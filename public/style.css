@@ -100,3 +100,22 @@ textarea {
 #save-info {
     margin: 1rem;
 }
+
+.form-wrapper {
+    width: 300px;
+    height: auto;
+    margin: 1rem;
+    background-color: var(--bg);
+    padding: 1rem;
+    border: 1px solid white;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#note-board {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 80%;
+    justify-content: center;
+}
