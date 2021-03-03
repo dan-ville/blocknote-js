@@ -1,6 +1,6 @@
-const myStorage = window.localStorage;
 const notes = [];
 const form = document.querySelector('form')
+
 const saveNote = (event) => {
     // prevent page refresh on form submit
     event.preventDefault();
@@ -15,7 +15,7 @@ const saveNote = (event) => {
     notes.push(note);
     console.log(notes);
     // set notes array to local storage
-    myStorage.setItem('notes', JSON.stringify(notes));
+    window.localStorage.setItem('notes', JSON.stringify(notes));
     // clear the form for new entries
     form.reset();
     console.log('form submitted')
@@ -27,12 +27,14 @@ form.addEventListener('submit', saveNote)
 
 // Submit form with keyboard shortcut: metaKey + enter
 document.addEventListener('keydown', (event) => {
-    if ( event.metaKey && event.key === 'Enter' ) {
-        // PROBLEM: FORM DATA IS NOT BEING PASSED IN, LOCAL STORAGE THUS NOT UPDATED
-        form.submit();
-        // document.querySelector('#save-note-btn').click()
-    }
+    
+    // if ( event.metaKey && event.key === 'Enter' ) {
+    //     // PROBLEM: FORM DATA IS NOT BEING PASSED IN, LOCAL STORAGE THUS NOT UPDATED
+    //     form.submit();
+    //     // document.querySelector('#save-note-btn').click()
+    // }
    
 })
 
-console.log(myStorage)
+console.log(notes)
+console.log(window.localStorage)
