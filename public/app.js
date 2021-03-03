@@ -1,4 +1,14 @@
-const notes = [];
+// notes array will hold all the notes
+let notes = [];
+
+// check if local storage has any data in a 'notes' key
+let stored = JSON.parse(localStorage.getItem('notes'));
+// if so, spread the data into the notes array 
+// this prevents the localStorage from being overwritten and reinitialized as an empty array if the page reloads, which would thereby virtually clear the data in localStorage.
+if (stored !== null) {
+    notes = [...stored];
+}
+
 const form = document.querySelector('form');
 const autoResizeElements = document.querySelectorAll('.auto-resize')
 
@@ -30,13 +40,16 @@ const saveNote = (event) => {
     // add note to notes array
     notes.push(note);
 
-    // set notes array to local storage  
+    // save the notes array to localstorage
+    // I THINK THE PROBLEM IS HERE. Whenever the page loads, localstorage should persist the data in its 'notes' key.
+    // But since the notes variable is being initialized at the top of the script, outside this function, then every time the page loads, the array is set to empty. Therefore, setting localStorage here will cause the 'notes' key of the localStorage object to be set to the empty notes array.
+       
     localStorage.setItem( 'notes', JSON.stringify(notes) );
        
     // clear the form for new entries
     form.reset();
     console.log('form submitted');
-    console.log({localStorage, notes});
+    console.log({localStorage});
 
 }
 
@@ -63,14 +76,11 @@ document.addEventListener('keydown', (event) => {
 
 // This allows the textarea to automatically resize instead of remaining the same height with a scroll bar
 autoResizeElements.forEach(element => {
-    element.addEventListener('input', autoResizeHeight)
+    element.addEventListener('input', autoResize)
 })
 
-function autoResizeHeight() {
-  this.style.height = "auto";
-  this.style.height = this.scrollHeight + "px";
-  this.style.borderColor = "green";
+function autoResize() {
+    this.style.height = this.scrollHeight + "px";
 }
-
 // -----------------------------
 
