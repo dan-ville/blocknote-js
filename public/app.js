@@ -1,12 +1,12 @@
 // notes array will hold all the notes
 let notes = [];
 
-// check if local storage has any data in a 'notes' key
+// grab any data from local storage and saved in a 'notes' key
 let stored = JSON.parse(localStorage.getItem('notes'));
-// if so, spread the data into the notes array 
-// this prevents the localStorage from being overwritten and reinitialized as an empty array if the page reloads, which would thereby virtually clear the data in localStorage.
+// if there is any data, spread the data into the notes array 
 if (stored !== null) {
     notes = [...stored];
+    // this prevents the localStorage from being overwritten and reinitialized as an empty array if the page reloads, which would thereby virtually clear the data in localStorage.
 };
 
 // Select HTML items
@@ -18,7 +18,8 @@ const noteBoard = document.querySelector('#note-board');
 // FUNCTIONALITY
 // -----------------------------
 
-// Here we create the note data by grabbing whatever information is in the form at the time of submission and saving it as an object called noteData
+// Here we create the note data by grabbing whatever information is in the form at the time of submission and saving it as an object called noteData.
+// This function gets called in the saveNote() 
 const createNoteData = () => {
     const noteData = {
         id: Date.now(),
@@ -30,7 +31,9 @@ const createNoteData = () => {
 };
 
 // Logic for rendering notes that are saved
+// This function gets called in saveNote()
 const renderNote = (note) => {
+// Create the dom elements needed for every note 
   const formWrapper = document.createElement("div");
   formWrapper.classList.add("form-wrapper");
 
@@ -54,28 +57,18 @@ const renderNote = (note) => {
 const saveNote = (event) => {
     // prevent page refresh on form submit
     event.preventDefault();
-    
     // save noteData to note variable
     const note = createNoteData();
-    
-    // add note to notes array
+    // add note to notes array and localstorage
     notes.push(note);
-
-    // save the notes array to localstorage
-    // I THINK THE PROBLEM IS HERE. Whenever the page loads, localstorage should persist the data in its 'notes' key.
-    // But since the notes variable is being initialized at the top of the script, outside this function, then every time the page loads, the array is set to empty. Therefore, setting localStorage here will cause the 'notes' key of the localStorage object to be set to the empty notes array.
-       
     localStorage.setItem( 'notes', JSON.stringify(notes) );
-       
-    renderNote(note)
+    // NOTE: rendering should probably not happen inside this function    
+    renderNote(note);
     // clear the form for new entries
     form.reset();
-    console.log('form submitted');
-    console.log({localStorage});
-
 };
 
-
+// 
 if (notes) {
     for (let note of notes) {
         renderNote(note)

@@ -20,6 +20,7 @@ td, footer, header, menu, nav, section, video {
     --aqua: #138d83;
     --cinder: #b98c10;
 }
+
 body {
     background-color: var(--bg);
     color: white;
@@ -36,13 +37,15 @@ h1 {
     padding-bottom: 1rem;
     font-size: 2rem;
 }
+
 #new-note-wrapper {
     width: 50%;
     max-width: 600px;
     background-color: var(--bg);
     padding: 1rem;
     border: 1px solid white;
-    
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px black;;   
 }
 
 form {
