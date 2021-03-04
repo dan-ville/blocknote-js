@@ -47,7 +47,7 @@ const renderNote = (note) => {
   formWrapper.appendChild(newForm);
   noteBoard.appendChild(formWrapper);
 };
-    
+
 // Here we send the noteData object to the notes array and to local storage
 // Therefore, saveNote() does not need to receive the form data but rather call createNoteData()
 // Thus, we can use it to create eventListeners that don't need the form data passed to it, since the data gets created AFTER the event trigger. 
@@ -105,11 +105,18 @@ document.addEventListener('keydown', (event) => {
 
 // This allows the textarea to automatically resize instead of remaining the same height with a scroll bar
 autoResizeElements.forEach(element => {
-    element.addEventListener('input', autoResize)
+    element.addEventListener('input', (element) => autoResizeInput(element, '50px'))
 });
 
-function autoResize() {
-    this.style.height = this.scrollHeight + "px";
+function autoResizeInput(element, defaultHeight) {
+    if (element) {
+        // if an element has been passed in, this ternary operator will check if it was created by a dom event or if the element was already in the dom, and either way create a target variable
+        const target = element.target ? element.target : element;
+        // default height is set in case user deletes content
+        target.style.height = defaultHeight;
+        // height is changed dynamically to match however much content is in the input
+        target.style.height = `${target.scrollHeight}px`;
+    }
 };
 // -----------------------------
 

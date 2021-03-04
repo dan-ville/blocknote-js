@@ -114,8 +114,10 @@ textarea {
 
 #note-board {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    /* displays the notes in reverse, avoids doing it in javascript */
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
     max-width: 80%;
     justify-content: center;
+
 }
